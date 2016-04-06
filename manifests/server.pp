@@ -3,10 +3,13 @@ class ssh::server(
   $storeconfigs_enabled = true,
   $options              = {},
   $validate_sshd_file   = false,
+  $use_hiera            = true,
 ) inherits ssh::params {
 
-  # Merge hashes from multiple layer of hierarchy in hiera
-  $hiera_options = hiera_hash("${module_name}::server::options", undef)
+  # Optionally merge hashes from multiple layer of hierarchy in hiera
+  if $use_hiera {
+    $hiera_options = hiera_hash("${module_name}::server::options", undef)
+  }
 
   $fin_options = $hiera_options ? {
     undef   => $options,
