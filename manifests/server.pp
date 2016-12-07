@@ -9,6 +9,8 @@ class ssh::server(
   # Optionally merge hashes from multiple layer of hierarchy in hiera
   if $use_hiera {
     $hiera_options = hiera_hash("${module_name}::server::options", undef)
+  } else {
+    $hiera_options = undef
   }
 
   $fin_options = $hiera_options ? {
